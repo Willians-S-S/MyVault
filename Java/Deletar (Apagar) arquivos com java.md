@@ -37,3 +37,6 @@ O método `deleteImg` é uma função que permite **excluir uma imagem** especí
     
 
 ---
+
+## Referências
+https://codegym.cc/pt/groups/posts/pt.341.excluir-um-arquivo-em-java

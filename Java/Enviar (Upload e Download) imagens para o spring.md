@@ -194,3 +194,64 @@ public class ImageController {
         
 
 ---
+#### Receber dto e imagem no mesmo end point
+```java
+@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public UserResponseDto addUser(
+            @Valid @RequestPart("user") UserRequestDto userRequest,
+            @RequestPart(value = "image", required = false) MultipartFile image
+    ){
+        return this.userService.addUser(userRequest, image);
+    }
+```
+
+### Visão Geral
+
+O método `addUser` é um **endpoint POST** que aceita requisições com o tipo de conteúdo `multipart/form-data`. Ele espera receber dois "partes" na requisição:
+
+1. Os dados do usuário em formato JSON (mapeados para `UserRequestDto`).
+    
+2. Opcionalmente, um arquivo de imagem para o perfil do usuário.
+    
+
+Ele então delega a lógica de negócio para o serviço `userService` para realmente adicionar o usuário e processar a imagem.
+
+### Detalhes dos Componentes
+
+- **`@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)`**
+    
+    - **`@PostMapping`**: Esta anotação indica que este método irá lidar com requisições HTTP **POST**. Requisições POST são tipicamente usadas para **criar novos recursos** no servidor.
+        
+    - **`consumes = MediaType.MULTIPART_FORM_DATA_VALUE`**: Este atributo especifica que o endpoint espera receber dados no formato `multipart/form-data`. Este formato é comumente usado para **upload de arquivos**, pois permite enviar dados textuais (como JSON) e arquivos binários (como imagens) na mesma requisição.
+        
+- **`public UserResponseDto addUser(...)`**
+    
+    - **`UserResponseDto`**: Este é o tipo de retorno do método. Indica que, após o usuário ser adicionado com sucesso, a resposta HTTP conterá um objeto `UserResponseDto`, que provavelmente inclui os dados do usuário recém-criado (e talvez o caminho da imagem, se aplicável).
+        
+- **`@Valid @RequestPart("user") UserRequestDto userRequest`**
+    
+    - **`@RequestPart("user")`**: Esta anotação indica que a parte da requisição `multipart/form-data` com o nome `"user"` deve ser extraída e vinculada ao objeto `userRequest`. Essa parte normalmente conteria os dados JSON do usuário.
+        
+    - **`UserRequestDto userRequest`**: É um Objeto de Transferência de Dados (DTO) que representa os dados de entrada necessários para criar um usuário (ex: nome, email, senha).
+        
+    - **`@Valid`**: Esta anotação, parte do Bean Validation (JSR 303/349), instrui o Spring a **validar** o objeto `userRequest` de acordo com as regras de validação definidas dentro da classe `UserRequestDto` (por exemplo, `@NotNull`, `@Email`, `@Size`). Se a validação falhar, o Spring lançará uma exceção, e a requisição não prosseguirá.
+        
+- **`@RequestPart(value = "image", required = false) MultipartFile image`**
+    
+    - **`@RequestPart(value = "image", required = false)`**: Similar ao anterior, esta anotação extrai a parte da requisição chamada `"image"` e a vincula a um objeto `MultipartFile`.
+        
+    - **`MultipartFile image`**: Representa o arquivo enviado (neste caso, a imagem de perfil).
+        
+    - **`required = false`**: Este atributo é **muito importante**. Ele significa que a parte `"image"` na requisição `multipart/form-data` é **opcional**. O usuário pode criar uma conta sem fornecer uma imagem de perfil imediatamente.
+        
+- **`return this.userService.addUser(userRequest, image);`**
+    
+    - Esta linha demonstra a **separação de responsabilidades**. O controller (`addUser` neste caso) apenas recebe e valida a entrada. A lógica de negócio real para adicionar o usuário ao banco de dados, processar a imagem, etc., é delegada ao serviço `this.userService`. O método `addUser` do serviço provavelmente cuidará de:
+        
+        - Salvar os dados do `userRequest` no banco de dados.
+            
+        - Salvar a `image` em um diretório de arquivos (se presente).
+            
+        - Retornar os dados do usuário criado, possivelmente incluindo o caminho da imagem salva, como um `UserResponseDto`.
+## Referências:
+https://medium.com/@dulanjayasandaruwan1998/uploading-images-in-a-spring-boot-project-a-step-by-step-guide-8a55248ea520
