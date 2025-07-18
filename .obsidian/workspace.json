@@ -65,12 +65,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Java.md",
+                "file": "Java/Teste em Java.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Java"
+              "title": "Teste em Java"
             }
           },
           {
@@ -276,14 +276,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8a2c8976561f3a34",
+  "active": "fab7d0d63c741b8f",
   "lastOpenFiles": [
-    "Mensagem de Erro personalizado.md",
-    "Teste em Java.md",
-    "Anotação para validação em Java.md",
-    "Exceptions personalizada.md",
-    "Java.md",
-    "Tipos de dados.md",
+    "Java",
+    "Java/Mensagem de Erro personalizado.md",
+    "Java/Exceptions personalizada.md",
+    "Java/Java.md",
+    "Java/Teste em Java.md",
+    "Java/Anotação para validação em Java.md",
+    "Java/Tipos de dados.md",
     "Anotações em Java.md",
     "Bem-vindo.md",
     "crie um link.md"
